@@ -1,17 +1,19 @@
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
-
+const dotenv = require("dotenv");
 const app = express();
+const path = require("path");
+const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
 app.use(cors());
 
 const db = mysql.createConnection({
-  user: "sql6471182", //username
-  host: "sql6.freesqldatabase.com", //hostname
-  password: "aP7T8TVMlK", //password
-  database: "sql6471182", //database name
+  user: process.env.user, //username
+  host: process.env.host, //hostname
+  password: process.env.password, //password
+  database: process.env.database, //database name
   port: 3306, // port if available
 });
 
@@ -62,6 +64,15 @@ app.get("/orders", (req, res) => {
   });
 });
 
-app.listen(4000, () => {
-  console.log("running server");
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join("client/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
+app.listen(PORT, () => {
+  console.log(
+    `running ${process.env.NODE_ENV} build on server on port ${PORT}`
+  );
 });
