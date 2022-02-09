@@ -22,7 +22,7 @@ const MUITable = () => {
 
   useEffect(() => {
     const getAllOrder = async () => {
-      await axios.get("http://localhost:4000/orders").then((res) => {
+      await axios.get("/orders").then((res) => {
         setOrders(res.data.orderTable);
         console.log("orderTable", orders);
       });

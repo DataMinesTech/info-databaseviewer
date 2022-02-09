@@ -14,7 +14,7 @@ const Login = () => {
 
     debugger;
     await axios
-      .post("http://localhost:4000/login", {
+      .post("/login", {
         username: username,
         password: password,
       })
